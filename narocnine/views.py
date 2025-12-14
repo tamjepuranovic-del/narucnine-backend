@@ -14,7 +14,23 @@ class LoginView(APIView):
 
         try:
             user = AuthService.login(username, password)
-            tokens = AuthService.get_toknes_for_user(user)
+            tokens = AuthService.get_tokens_for_user(user)
             return Response(tokens, status=status.HTTP_200_OK)
         except:
             return Response(status=status.HTTP_401_UNAUTHORIZED)
+
+class RegisterView(APIView):
+    def post(self, request):
+        data = request.data
+        try:
+            user = AuthService.register(
+                firs_name=data.get('firs_name'),
+                last_name=data.get('last_name'),
+                username=data.get('username'),
+                email=data.get('email'),
+                password=data.get('password')
+            )
+            tokens = AuthService.get_tokens_for_user(user)
+            return Response(tokens, status=status.HTTP_201_CREATED)
+        except Exception as e:
+            return Response({'detail': str(e)}, status=status.HTTP_400_BAD_REQUEST)

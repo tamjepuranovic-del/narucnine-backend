@@ -1,6 +1,7 @@
 from .models import User
 from rest_framework_simplejwt.tokens import RefreshToken
-from django.contrib.auth.hashers import check_password
+from django.contrib.auth.hashers import check_password, make_password
+
 
 class AuthService:
 
@@ -27,3 +28,19 @@ class AuthService:
             'username': user.username,
             'role': user.role
         }
+
+    def register(username, password, firs_name, last_name, email):
+
+        #gleda jel username postoji
+        if User.objects.filter(username=username).exists():
+            raise Exception('User with this username already exists')
+        #gleda jel email postoji
+        if User.objects.filter(email=email).exists():
+            raise Exception('User with this email already exists')
+
+        user = User(username=username, password_hash=make_password(password) ,first_name=firs_name, last_name=last_name, email=email)
+        user.save()
+        return user
+
+
+
