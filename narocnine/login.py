@@ -25,6 +25,7 @@ class AuthService:
         return {
             'refresh': str(refresh),
             'access': str(refresh.access_token),
+            'user_id': user.id,
             'username': user.username,
             'role': user.role
         }
@@ -44,3 +45,6 @@ class AuthService:
 
 
 
+# update za acc
+# update statusa narocnine da li je canceled
+# za admina da vidi sve appointmente od svakog usera i lokacije i cancled narocnine, a useri samo mogu svoje

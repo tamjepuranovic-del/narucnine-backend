@@ -34,3 +34,14 @@ class RegisterView(APIView):
             return Response(tokens, status=status.HTTP_201_CREATED)
         except Exception as e:
             return Response({'detail': str(e)}, status=status.HTTP_400_BAD_REQUEST)
+
+
+class DeleteAccountView(APIView):
+
+    def delete(self, request):
+        user = request.user
+        user.delete()
+        return Response(
+            {"message": "Account deleted successfully"},
+            status=status.HTTP_204_NO_CONTENT
+        )

@@ -33,7 +33,7 @@ class Location(models.Model):
 
 class Appointment(models.Model):
     TYPE_CHOICES = [('appointment', 'Appointment'), ('blackout', 'Blackout')]
-    STATUS_CHOICES = [('active', 'Active'), ('cancelled', 'Cancelled')]
+    STATUS_CHOICES = [('active', 'Active'), ('cancelled', 'Cancelled'), ('not active', 'Not Active')]
 
     location = models.ForeignKey(Location, on_delete=models.CASCADE)
     user = models.ForeignKey(User, null=True, blank=True, on_delete=models.SET_NULL)
