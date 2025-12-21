@@ -19,6 +19,7 @@ class LoginView(APIView):
         try:
             user = AuthService.login(username, password)
             tokens = AuthService.get_tokens_for_user(user)
+            print("tokens:", tokens)
             return Response(tokens, status=status.HTTP_200_OK)
         except:
             print("Something went wrong", Response)

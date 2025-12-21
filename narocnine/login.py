@@ -7,11 +7,13 @@ class AuthService:
 
     @staticmethod
     def login(username, password):
-
+        print('Logging in user')
         # proverava username, ako nije u tabeli onda exception
         try:
-            user = User.objects.get(username=username)
+            user = User.objects.get(username__iexact=username)
+            print('Username', user)
         except User.DoesNotExist:
+            print('User not found')
             raise Exception('User not found')
 
         # proverava password
@@ -19,6 +21,7 @@ class AuthService:
         #    raise Exception('Incorrect password')
 
         if user.password_hash != password:  # direct comparison
+            print('Password mismatch')
             raise Exception('Incorrect password')
 
         return user

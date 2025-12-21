@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', function() {
         console.log("Login button clicked");
 
         const username = document.getElementById('login-username').value;
-        const password = document.getElementById('login-password').value;
+        const password = document.getElementById('password').value;
 
         const response = await postData('/login/', { username, password });
         console.log("Response status:", response.status);
@@ -40,7 +40,7 @@ document.addEventListener('DOMContentLoaded', function() {
          //   document.getElementById('login-message').style.color = 'green';
          //   document.getElementById('login-message').innerText = 'Login successful!';
 
-            window.location.href = 'homepage/';
+            window.location.href = '/homepage/';
         } else if (response.status === 401){
             document.getElementById('login-message').innerText = 'User does not exist or wrong password';
         } else {

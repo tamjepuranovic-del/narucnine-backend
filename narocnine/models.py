@@ -14,11 +14,14 @@ class User(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     last_login = models.DateTimeField(null=True, blank=True)
 
-    def set_password(self, raw_password):
-        self.password_hash = make_password(raw_password)
+    class Meta:
+        db_table = 'users'
+        managed = False
+ #   def set_password(self, raw_password):
+  #      self.password_hash = make_password(raw_password)
 
-    def check_password(self, raw_password):
-        return check_password(raw_password, self.password_hash)
+   # def check_password(self, raw_password):
+    #    return check_password(raw_password, self.password_hash)
 
     def __str__(self):
         return self.username
