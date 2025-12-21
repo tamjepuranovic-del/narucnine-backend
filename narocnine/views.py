@@ -1,4 +1,6 @@
+from django.http import HttpResponse
 from django.shortcuts import render
+from rest_framework.parsers import JSONParser
 
 # Create your views here.
 
@@ -8,15 +10,18 @@ from rest_framework import status
 from .login import AuthService
 
 class LoginView(APIView):
+    parser_classes = [JSONParser]
     def post(self, request):
         username = request.data.get('username')
         password = request.data.get('password')
+        print("Received username:", username, "password:", password)
 
         try:
             user = AuthService.login(username, password)
             tokens = AuthService.get_tokens_for_user(user)
             return Response(tokens, status=status.HTTP_200_OK)
         except:
+            print("Something went wrong", Response)
             return Response(status=status.HTTP_401_UNAUTHORIZED)
 
 class RegisterView(APIView):
@@ -45,3 +50,6 @@ class DeleteAccountView(APIView):
             {"message": "Account deleted successfully"},
             status=status.HTTP_204_NO_CONTENT
         )
+
+def homepage(request):
+    return HttpResponse("Hello, world !")

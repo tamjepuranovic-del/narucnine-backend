@@ -15,12 +15,15 @@ class AuthService:
             raise Exception('User not found')
 
         # proverava password
-        if not user.check_password(password):
+       # if not user.check_password(password):
+        #    raise Exception('Incorrect password')
+
+        if user.password_hash != password:  # direct comparison
             raise Exception('Incorrect password')
 
         return user
 
-    def get_toknes_for_user(user):
+    def get_tokens_for_user(user):
         refresh = RefreshToken.for_user(user)
         return {
             'refresh': str(refresh),
