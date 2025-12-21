@@ -37,8 +37,8 @@ document.addEventListener('DOMContentLoaded', function() {
             localStorage.setItem('user_id', tokens.user_id);
             localStorage.setItem('username', tokens.username);
 
-         //   document.getElementById('login-message').style.color = 'green';
-         //   document.getElementById('login-message').innerText = 'Login successful!';
+            document.getElementById('login-message').style.color = 'green';
+            document.getElementById('login-message').innerText = 'Login successful!';
 
             window.location.href = '/homepage/';
         } else if (response.status === 401){
@@ -53,12 +53,13 @@ document.addEventListener('DOMContentLoaded', function() {
         console.log("Register button clicked");
 
         const data = {
-            firs_name: document.getElementById('reg-fname').value,
-            last_name: document.getElementById('reg-lname').value,
-            username: document.getElementById('reg-username').value,
-            email: document.getElementById('reg-email').value,
+            firs_name: document.getElementById('firs_name').value,
+            last_name: document.getElementById('last_name').value,
+            username: document.getElementById('username').value,
+            email: document.getElementById('email').value,
             password: document.getElementById('reg-password').value
         };
+        console.log("data for registration", data);
 
         const response = await postData('/register/', data);
         if(response.status === 201){

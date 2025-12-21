@@ -16,22 +16,33 @@ class AuthService:
             print('User not found')
             raise Exception('User not found')
 
-        # proverava password
-       # if not user.check_password(password):
-        #    raise Exception('Incorrect password')
+            # Handle legacy unhashed passwords
+        if not check_password(password, user.password_hash):
+                    # If direct comparison works (legacy user)
+            if user.password_hash != password:
+                raise Exception("Incorrect password")
+            else:
+                    # Upgrade legacy password to hashed
+                user.password_hash = make_password(password)
+                user.save()
 
-        if user.password_hash != password:  # direct comparison
-            print('Password mismatch')
-            raise Exception('Incorrect password')
+
+        #if user.password_hash != password:  # direct comparison
+         #   print(f"DB password: '{user.password_hash}'")
+          #  print(f"Input password: '{password}'")
+
+           # print('Password mismatch')
+            #raise Exception('Incorrect password')
 
         return user
 
+    @staticmethod
     def get_tokens_for_user(user):
         refresh = RefreshToken.for_user(user)
         return {
             'refresh': str(refresh),
             'access': str(refresh.access_token),
-            'user_id': user.id,
+            'user_id': user.user_id,
             'username': user.username,
             'role': user.role
         }
@@ -45,7 +56,7 @@ class AuthService:
         if User.objects.filter(email=email).exists():
             raise Exception('User with this email already exists')
 
-        user = User(username=username, password_hash=make_password(password) ,first_name=firs_name, last_name=last_name, email=email)
+        user = User(username=username, password_hash=make_password(password) ,firs_name=firs_name, last_name=last_name, email=email)
         user.save()
         return user
 

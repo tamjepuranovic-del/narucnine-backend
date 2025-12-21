@@ -21,11 +21,14 @@ class LoginView(APIView):
             tokens = AuthService.get_tokens_for_user(user)
             print("tokens:", tokens)
             return Response(tokens, status=status.HTTP_200_OK)
-        except:
-            print("Something went wrong", Response)
-            return Response(status=status.HTTP_401_UNAUTHORIZED)
+        except Exception as e:
+            print("Login failed:", e)
+            return Response({'detail': str(e)}, status=status.HTTP_401_UNAUTHORIZED)
+
 
 class RegisterView(APIView):
+    parser_classes = [JSONParser]
+
     def post(self, request):
         data = request.data
         try:

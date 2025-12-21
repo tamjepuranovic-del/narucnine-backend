@@ -4,6 +4,7 @@ from django.contrib.auth.hashers import make_password, check_password
 # Create your models here.
 
 class User(models.Model):
+    user_id = models.BigAutoField(primary_key=True)
     ROLE_CHOICES = [('USER', 'User'), ('ADMIN', 'Admin')]
     username = models.CharField(max_length=255, unique=True)
     password_hash = models.TextField()
@@ -17,14 +18,19 @@ class User(models.Model):
     class Meta:
         db_table = 'users'
         managed = False
- #   def set_password(self, raw_password):
-  #      self.password_hash = make_password(raw_password)
 
-   # def check_password(self, raw_password):
-    #    return check_password(raw_password, self.password_hash)
+    def set_password(self, raw_password):
+        self.password_hash = make_password(raw_password)
+
+    def check_password(self, raw_password):
+        return check_password(raw_password, self.password_hash)
 
     def __str__(self):
         return self.username
+
+    @property
+    def id(self):
+        return self.user_id
 
 
 class Location(models.Model):
