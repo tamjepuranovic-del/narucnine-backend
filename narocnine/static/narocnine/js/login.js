@@ -70,4 +70,20 @@ document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('register-message').innerText = err.detail || 'Registration failed!';
         }
     });
+
+    const loginForm = document.getElementById("loginForm");
+    const regiForm = document.getElementById("registerForm");
+
+    const signupBtn = document.getElementById("signup");
+    const backtoLogin = document.getElementById("backlogin");
+
+    signupBtn.addEventListener('click', async ()=>{
+       regiForm.style.display = "block";
+       loginForm.style.display = "none";
+    });
+
+    backtoLogin.addEventListener('click', async () =>{
+       regiForm.style.display = "none";
+       loginForm.style.display = "block";
+    });
 });

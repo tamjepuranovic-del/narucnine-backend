@@ -10,25 +10,34 @@
 
 <body>
 <div class="container">
-    <h2>Welcome</h2>
 
     <!-- LOGIN FORM -->
     <form id="loginForm">
+        <h2>Welcome</h2>
         <input type="text" id="login-username" placeholder="Username" required>
         <input type="password" id="password" placeholder="Password" required>
         <button id="login-button" type="button">Login</button>
+        <p>Don't have an account?
+            <button type="button" id="signup">Sign up</button>
+        </p>
     </form>
 
+    <div class="registration">
     <!-- REGISTER FORM -->
-    <form id="registerForm" style="margin-top:20px;">
-        <input type="text" id="firs_name" placeholder="First Name" required>
-        <input type="text" id="last_name" placeholder="Last Name" required>
-        <input type="text" id="username" placeholder="Username" required>
-        <input type="email" id="email" placeholder="Email" required>
-        <input type="password" id="reg-password" placeholder="Password" required>
-        <button id="register-button" type="button">Register</button>
-    </form>
 
+        <form id="registerForm" style="margin-top:20px;">
+            <h2>Sign up</h2>
+            <input type="text" id="firs_name" placeholder="First Name" required>
+            <input type="text" id="last_name" placeholder="Last Name" required>
+            <input type="text" id="username" placeholder="Username" required>
+            <input type="email" id="email" placeholder="Email" required>
+            <input type="password" id="reg-password" placeholder="Password" required>
+            <button id="register-button" type="button">Register</button>
+            <p>Already have an account?
+                <button type="button" id="backlogin">Login</button>
+            </p>
+        </form>
+    </div>
     <!-- ADMIN LOGIN -->
 <a href="/admin/"
    style="display:block; text-align:center; margin-top:20px;
