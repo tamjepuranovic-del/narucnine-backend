@@ -3,13 +3,68 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Login / Register / Admin</title>
-    <link rel="stylesheet" href="{% static 'narocnine/css/style.css' %}">
+    <title>Narocnine</title>
+    <link rel="stylesheet" href="{% static 'narocnine/css/home.css' %}">
+    <script src="{% static 'narocnine/js/home.js' %}"></script>
 </head>
 <body>
-<div class="container">
-    <h2>Home Page. Welcome</h2>
-</div>
+
+<header class="main-header">
+    <!-- Far left: Add button -->
+    <button type="button" id="add" class="add-btn">+</button>
+
+    <!-- Far right: Profile picture + dropdown -->
+    <div class="user-interface">
+        <button type="button" id="user_interface" class="profile-button" >
+        <img src="{% static 'narocnine/images/img.png' %}" class="profile-img">
+        </button>
+        <div id="dropdownMenu" class="dropdown-menu">
+            <a href="profil.html" class="dropdown">Profile</a>
+            <a href="/" class="dropdown">Logout</a>
+        </div>
+    </div>
+
+</header>
+
+
+<main class="main-content">
+    <!-- Center: Dobrodosli -->
+    <h2 class="welcome-text">Dobrodosli</h2>
+
+    <section>
+        <div class="section-wrapper">
+            <h3 class="section-title">Popularna mesta</h3>
+            <div class="blocks">
+                {% for location in popular_locations %}
+                <div class="card">
+                    <h4>{{ location.name }}</h4>
+                    <p>{{ location.address }}</p>
+            <!--    <a href="% url 'mestainfo' location.id %}" class="more-link">More</a>-->
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <div class="section-wrapper">
+            <h3 class="section-title">Mesta pre rezervisana</h3>
+            <div class="blocks">
+                {% for location in reserved_locations %}
+                <div class="card">
+                    {% if location %}
+                        <h4>{{ location.name }}</h4>
+                        <p>{{ location.address }}</p>
+            <!--    <a href="% url 'mestainfo' location.id %}" class="more-link">More</a>-->
+                    {% else %}
+                        <h4>No reservations yet</h4>
+                    {% endif %}
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+</main>
 
 </body>
 </html>

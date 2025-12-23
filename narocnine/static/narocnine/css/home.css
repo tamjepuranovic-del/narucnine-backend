@@ -1,0 +1,134 @@
+/* Header layout */
+.main-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 20px;
+    background-color: white;
+    border-bottom: 1px solid #ddd;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.add-btn {
+    background-color: white;
+    font-size: 24px;
+    padding: 4px 10px;
+    cursor: pointer;
+    border-radius: 50%;
+}
+
+.welcome-text {
+    padding-top: 40px;
+    padding-bottom: 40px;
+    font-size: 40px;
+    margin: 0;
+    text-align: center;
+    flex: 1;
+}
+
+/* User profile */
+.user-interface {
+    position: relative;
+}
+
+.profile-button {
+    border: none;
+    background: transparent;
+    padding: 0;
+    cursor: pointer;
+}
+
+.profile-img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+}
+
+
+.dropdown-menu {
+    display: none; /* hidden by default */
+    position: absolute;
+    top: 60px;
+    right: 0;
+    background: white;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    z-index: 100;
+}
+
+.dropdown {
+    display: block;
+    padding: 10px 15px;
+    text-decoration: none;
+    color: black;
+}
+
+.dropdown:hover {
+    background-color: #f0f0f0;
+}
+
+
+.user-interface:hover .dropdown-menu {
+    display: block;
+}
+
+/* Main content */
+.main-content {
+    padding-bottom: 100px;
+    background-color: #f8f8f8;
+}
+
+
+.blocks {
+    display: flex;          /* Enable flexbox */
+    flex-wrap: wrap;        /* Wrap to next line if too many cards */
+    gap: 20px;              /* Space between cards */
+    justify-content: center; /* Center cards horizontally */
+
+}
+
+.card {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    width: 250px;
+    text-align: center;
+    hight: 400px;
+}
+
+.card h4 {
+    margin-bottom: 10px;
+}
+
+.card p {
+    font-size: 0.9rem;
+    margin-bottom: 15px;
+}
+
+.more-link {
+    text-decoration: none;
+    color: #007bff;
+    font-weight: bold;
+}
+
+.more-link:hover {
+    text-decoration: underline;
+}
+
+.section-wrapper {
+    padding-top: 50px;
+    padding-bottom: 20px;
+    max-width: 1000px;   /* same width as your blocks/cards container */
+    margin: 0 auto;       /* center the whole section */
+}
+
+.section-title {
+    padding-bottom: 20px;
+    text-align: left;     /* aligns left relative to the section wrapper */
+    margin-bottom: 10px;  /* some spacing from cards */
+}
+
+

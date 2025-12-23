@@ -36,16 +36,31 @@ class User(models.Model):
 class Location(models.Model):
     name = models.CharField(max_length=255)
     address = models.TextField()
-    created_by = models.ForeignKey(User, on_delete=models.CASCADE)
+    created_by = models.BigIntegerField()
     approved = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        db_table = 'locations'
+        managed = False
+
+    @property
+    def creator(self):
+        from .models import User
+        return User.objects.get(user_id=self.created_by)
+
+    def __str__(self):
+        return f"{self.name} - {self.address}"
 
 class Appointment(models.Model):
     TYPE_CHOICES = [('appointment', 'Appointment'), ('blackout', 'Blackout')]
     STATUS_CHOICES = [('active', 'Active'), ('cancelled', 'Cancelled'), ('not active', 'Not Active')]
 
-    location = models.ForeignKey(Location, on_delete=models.CASCADE)
-    user = models.ForeignKey(User, null=True, blank=True, on_delete=models.SET_NULL)
+    #jer django voli da bude glup za fk i pk
+    appointment_id = models.BigAutoField(primary_key=True)
+    location_id = models.BigIntegerField()
+    user_id = models.BigIntegerField(null=True, blank=True)
+
     appointment_start_date = models.DateField()
     appointment_end_date = models.DateField()
     start_time = models.TimeField(null=True, blank=True)
@@ -53,3 +68,23 @@ class Appointment(models.Model):
     type = models.CharField(max_length=20, choices=TYPE_CHOICES)
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='active')
     created_at = models.DateTimeField(auto_now_add=True)
+
+
+    #zbog djangovog assuming naziva vrsta u tabeli.
+    class Meta:
+        db_table = 'appointments'
+        managed = False
+
+    @property
+    def location(self):
+        from .models import Location
+        return Location.objects.get(id=self.location_id)
+
+    @property
+    def user(self):
+        from .models import User
+        return User.objects.get(user_id=self.user_id)
+
+    @property
+    def appointment(self):
+        return self.appintment_id
