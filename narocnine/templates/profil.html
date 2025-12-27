@@ -1,0 +1,28 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Profil</title>
+    <link rel="stylesheet" href="{% static 'narocnine/css/profile.css' %}">
+    <script src="{% static 'narocnine/js/profile.js' %}"></script>
+</head>
+<body>
+
+    <img src="{% static 'narocnine/images/img.png' %}" class="profilepic">
+    <p>Profile</p>
+    <p>email</p>
+    <input type="text" name="email" value="{{ request.user.email }}">
+    <p>username</p>
+    <input type="text" name="username" value="{{ request.user.username }}">
+    <p>first name</p>
+    <input type="text" name="firs_name" value="{{ request.user.firs_name }}">
+    <p>last name</p>
+    <input type="text" name="last_name" value="{{ request.user.last_name }}">
+    <p>password</p>
+    <input type="text" placeholder="******">
+
+<button type="button" id="update">Update</button>
+<button href="/" id="return">Back</button>
+</body>
+</html>

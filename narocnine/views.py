@@ -78,3 +78,29 @@ def homepage(request):
         'popular_locations': popular_locations,
         'reserved_locations': reserved_locations
     })
+
+
+#TO BE POPRAVLJENO KAD SE NADJE VREMENA
+def profile(request):
+    if request.method == 'POST':
+        user = request.user
+        username = request.POST.get('username')
+        email = request.POST.get('email')
+        password = request.POST.get('password')
+        firs_name = request.POST.get('firs_name')
+        last_name = request.POST.get('last_name')
+
+        if username != user.username:
+            user.username = username
+        if email != user.email:
+            user.email = email
+        if password != user.password:
+            user.passoword = password
+        if firs_name != user.firs_name:
+            user.firs_name = firs_name
+        if last_name != user.last_name:
+            user.last_name = last_name
+
+        user.save()
+
+    return render(request, 'profil.html')
