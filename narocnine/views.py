@@ -1,14 +1,17 @@
 from django.http import HttpResponse
 from django.shortcuts import render
 from rest_framework.parsers import JSONParser
+from rest_framework.permissions import IsAuthenticated
 
 # Create your views here.
 
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
+from rest_framework_simplejwt.authentication import JWTAuthentication
+
 from .login import AuthService
-from .models import Location, Appointment
+from .models import Location, Appointment, User
 
 
 class LoginView(APIView):
@@ -21,6 +24,7 @@ class LoginView(APIView):
         try:
             user = AuthService.login(username, password)
             tokens = AuthService.get_tokens_for_user(user)
+            request.session['current_user_id'] = user.user_id
             print("tokens:", tokens)
             return Response(tokens, status=status.HTTP_200_OK)
         except Exception as e:
@@ -82,25 +86,41 @@ def homepage(request):
 
 #TO BE POPRAVLJENO KAD SE NADJE VREMENA
 def profile(request):
-    if request.method == 'POST':
-        user = request.user
-        username = request.POST.get('username')
-        email = request.POST.get('email')
-        password = request.POST.get('password')
-        firs_name = request.POST.get('firs_name')
-        last_name = request.POST.get('last_name')
+    return render(request, 'profil.html')
 
-        if username != user.username:
-            user.username = username
-        if email != user.email:
-            user.email = email
-        if password != user.password:
-            user.passoword = password
-        if firs_name != user.firs_name:
-            user.firs_name = firs_name
-        if last_name != user.last_name:
-            user.last_name = last_name
+class ProfileView(APIView):
+    parser_classes = [JSONParser]
+
+    def get(self, request):
+        user_id = request.session.get('current_user_id')
+        if not user_id:
+            return Response({"detail": "Unauthorized"}, status=401)
+
+        user = User.objects.get(user_id=user_id)
+        print(user)
+        print(user.firs_name)
+
+        return Response({
+            "email": user.email,
+            "username": user.username,
+            "firs_name": user.firs_name,
+            "last_name": user.last_name
+        })
+
+    def post(self, request):
+        user_id = request.session.get('current_user_id')
+        if not user_id:
+            return Response({"detail": "Unauthorized"}, status=401)
+
+        user = User.objects.get(user_id=user_id)
+        user.email = request.data.get("email", user.email)
+        user.username = request.data.get("username", user.username)
+        user.firs_name = request.data.get("firs_name", user.firs_name)
+        user.last_name = request.data.get("last_name", user.last_name)
+
+        password = request.data.get("password")
+        if password and password != "******":
+            user.set_password(password)
 
         user.save()
-
-    return render(request, 'profil.html')
+        return Response({"status": "success"})

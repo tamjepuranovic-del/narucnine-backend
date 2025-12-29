@@ -1,0 +1,97 @@
+/* Center the whole container */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f5f5f5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+/* Container holding title and card */
+.profile-container {
+    text-align: center;
+}
+
+/* Title on top of the card */
+.profile-title {
+    margin-bottom: 20px;
+    font-size: 28px;
+    color: #333;
+}
+
+/* Card block */
+.profile-card {
+    background-color: #fff;
+    padding: 30px 20px 20px 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    min-width: 500px;
+}
+
+/* Profile picture */
+.profilepic {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%; /* makes it circular */
+    object-fit: cover;
+    margin-right: 20px;
+}
+
+/* Info section */
+.profile-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.profile-info p {
+    margin: 5px 0 2px;
+    font-weight: bold;
+    color: #555;
+}
+
+.profile-info input {
+    padding: 8px 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 14px;
+}
+
+/* Buttons */
+.profile-buttons {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.profile-buttons button {
+    padding: 8px 15px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    background-color: #4CAF50;
+    color: white;
+    font-size: 14px;
+    transition: background-color 0.2s;
+}
+
+.profile-buttons button:hover {
+    background-color: #45a049;
+}
+
+/* Back button different color */
+.profile-buttons button#return {
+    background-color: #f44336;
+}
+
+.profile-buttons button#return:hover {
+    background-color: #d7372f;
+}

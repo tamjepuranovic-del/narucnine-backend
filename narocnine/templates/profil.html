@@ -5,24 +5,30 @@
     <meta charset="UTF-8">
     <title>Profil</title>
     <link rel="stylesheet" href="{% static 'narocnine/css/profile.css' %}">
-    <script src="{% static 'narocnine/js/profile.js' %}"></script>
+    <script src="{% static 'narocnine/js/profile.js' %}" defer></script>
 </head>
 <body>
-
-    <img src="{% static 'narocnine/images/img.png' %}" class="profilepic">
-    <p>Profile</p>
-    <p>email</p>
-    <input type="text" name="email" value="{{ request.user.email }}">
-    <p>username</p>
-    <input type="text" name="username" value="{{ request.user.username }}">
-    <p>first name</p>
-    <input type="text" name="firs_name" value="{{ request.user.firs_name }}">
-    <p>last name</p>
-    <input type="text" name="last_name" value="{{ request.user.last_name }}">
-    <p>password</p>
-    <input type="text" placeholder="******">
-
-<button type="button" id="update">Update</button>
-<button href="/" id="return">Back</button>
+    <div class="profile-container">
+        <h2 class="profile-title">Profile</h2>
+        <div class="profile-card">
+            <img src="{% static 'narocnine/images/img.png' %}" class="profilepic">
+            <div class="profile-info">
+                <p>Email</p>
+                <input type="text" name="email">
+                <p>Username</p>
+                <input type="text" name="username">
+                <p>First Name</p>
+                <input type="text" name="firs_name">
+                <p>Last Name</p>
+                <input type="text" name="last_name">
+                <p>Password</p>
+                <input type="text" placeholder="******">
+                <div class="profile-buttons">
+                    <button type="button" id="update">Update</button>
+                    <button type="button" id="return">Back</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
