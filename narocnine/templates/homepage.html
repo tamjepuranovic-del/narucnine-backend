@@ -55,7 +55,7 @@
                     {% if location %}
                         <h4>{{ location.name }}</h4>
                         <p>{{ location.address }}</p>
-            <!--    <a href="% url 'mestainfo' location.id %}" class="more-link">More</a>-->
+                        <a href="{% url 'mestainfo' location.id %}" class="more-link">More</a>
                     {% else %}
                         <h4>No reservations yet</h4>
                     {% endif %}

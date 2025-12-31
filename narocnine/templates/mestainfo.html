@@ -1,0 +1,37 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Informacije</title>
+    <link rel="stylesheet" href="{% static 'narocnine/css/lokacija.css' %}">
+    <script src="{% static 'narocnine/js/lokacija.js' %}"></script>
+</head>
+<body>
+
+  <div class="container">
+        <div class="rez-card">
+        <h2 class="title">Rezervacija</h2>
+            <div class="info">
+                {% if info %}
+                    <p>Lokacija: {{ info.location_name }}</p>
+                    <p>Datum: {{ info.date }}</p>
+                    <p>Vreme: {{ info.time }}</p>
+                    <div class="status-row">
+                        <label for="status">Status:</label>
+                        <select name="status" id="status">
+                            <option value="active" {% if info.status == "active" %}selected{% endif %}>Active</option>
+                            <option value="cancelled" {% if info.status == "cancelled" %}selected{% endif %}>Cancelled</option>
+                        </select>
+                    </div>
+                    <div class="buttons">
+                        <button type="button" id="update-status" data-id="{{ info.appointment_id }}">Update</button>
+                        <button type="button" id="return">Back</button>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

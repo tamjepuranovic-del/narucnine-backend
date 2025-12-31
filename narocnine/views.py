@@ -13,6 +13,7 @@ from datetime import datetime
 from .booking import Booking
 from .login import AuthService
 from .models import Location, Appointment, User
+from .appointmentinfo import get_appointment_info
 
 
 class LoginView(APIView):
@@ -160,3 +161,31 @@ def RezervacijaApi(request):
         "message": "Appointment successfully booked",
         "appointment_id": appointment.appointment_id
     })
+
+
+def mestainfo(request, location_id):
+    info = get_appointment_info(request.session, location_id)
+
+    if not info:
+        return render(request, 'mestainfo.html', {'error': "No reservation found."})
+
+    return render(request, 'mestainfo.html', {'info': info})
+
+
+
+def update_status(request, appointment_id):
+    if request.method != "POST":
+        return JsonResponse({"error": "Method not allowed"}, status=405)
+
+    status = request.POST.get("status")
+    if status not in ["active", "cancelled"]:
+        return JsonResponse({"error": "Invalid status"}, status=400)
+
+    try:
+        appointment = Appointment.objects.get(appointment_id=appointment_id)
+        appointment.status = status
+        appointment.save()
+    except Appointment.DoesNotExist:
+        return JsonResponse({"error": "Appointment not found"}, status=404)
+
+    return JsonResponse({"message": "Status updated successfully"})
