@@ -4,7 +4,8 @@ from rest_framework.views import APIView
 from . import views
 from django.contrib.auth.views import LogoutView
 from django.urls import path
-from .views import LoginView, RegisterView, DeleteAccountView, homepage, profile, ProfileView
+from .views import LoginView, RegisterView, DeleteAccountView, homepage, profile, ProfileView, rezervacija, \
+    RezervacijaApi
 
 urlpatterns = [
 
@@ -16,4 +17,6 @@ urlpatterns = [
     path('homepage/', homepage, name='homepage'),
     path('profile/', profile, name='profil'),
     path('api/profile/', ProfileView.as_view(), name='api-profile'),
+    path('rezervisanje/', rezervacija, name='rezervisanje'),
+    path('api/rezervacija/', RezervacijaApi, name='rezervacija_api'),
 ]

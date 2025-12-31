@@ -1,15 +1,16 @@
 from django.http import HttpResponse
 from django.shortcuts import render
 from rest_framework.parsers import JSONParser
-from rest_framework.permissions import IsAuthenticated
+from django.http import JsonResponse
 
 # Create your views here.
 
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from rest_framework_simplejwt.authentication import JWTAuthentication
+from datetime import datetime
 
+from .booking import Booking
 from .login import AuthService
 from .models import Location, Appointment, User
 
@@ -63,12 +64,12 @@ class DeleteAccountView(APIView):
 
 def homepage(request):
     popular_locations = Location.objects.filter(approved=True)[:3]
+    user_id = request.session['current_user_id']
 
     # Fetch the 3 most recent **normal appointments** for the logged-in user
     reserved_qs = (
         Appointment.objects
-        .filter(user_id=request.user.id, type='appointment')
-        .order_by('-appointment_start_date')[:3]
+        .filter(user_id=user_id, type='appointment')[:3]
     )
 
     # Convert appointments to locations
@@ -124,3 +125,38 @@ class ProfileView(APIView):
 
         user.save()
         return Response({"status": "success"})
+
+
+def rezervacija(request):
+    locations = Location.objects.filter(approved=True)[:]
+    return render(request,'rezervisanje.html',{'locations':locations})
+
+def RezervacijaApi(request):
+    print("api hit")
+
+    if request.method != "POST":
+        return JsonResponse({"error": "Method not allowed"}, status=405)
+
+    user_id = request.session.get("current_user_id")
+    if not user_id:
+        return JsonResponse({"error": "Unauthorized"}, status=401)
+
+    location_id = int(request.POST.get("lokacija"))
+    date_str = request.POST.get("date")
+    start_time_str = request.POST.get("start_time")
+
+    try:
+        date = datetime.strptime(date_str, "%Y-%m-%d").date()
+        start_time = datetime.strptime(start_time_str, "%H:%M").time()
+    except Exception:
+        return JsonResponse({"error": "Invalid date or time"}, status=400)
+
+    try:
+        appointment = Booking.reserve(user_id, location_id, date, start_time)
+    except ValueError as e:
+        return JsonResponse({"error": str(e)}, status=400)
+
+    return JsonResponse({
+        "message": "Appointment successfully booked",
+        "appointment_id": appointment.appointment_id
+    })

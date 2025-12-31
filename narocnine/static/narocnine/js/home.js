@@ -25,4 +25,9 @@ document.addEventListener("DOMContentLoaded", () => {
         window.location.href = "/";
     });
 
+    const addbtn = document.getElementById('add');
+    addbtn.addEventListener('click', ()=>{
+       console.log("addbtn clicked");
+       window.location.href = "/rezervisanje/"
+    });
 });

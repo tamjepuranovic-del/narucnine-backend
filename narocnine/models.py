@@ -87,4 +87,4 @@ class Appointment(models.Model):
 
     @property
     def appointment(self):
-        return self.appintment_id
+        return self.appointment_id

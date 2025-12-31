@@ -1,0 +1,41 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Rezervacije</title>
+    <link rel="stylesheet" href="{% static 'narocnine/css/rezervisanje.css' %}">
+    <script src="{% static 'narocnine/js/rezervisanje.js' %}"></script>
+</head>
+<body>
+
+<form id="rezervForm" name="rezervForm" method="post">
+<p>Nova rezervacija</p>
+    {% csrf_token %}
+    <label for="lokacija">izaberi lokaciju</label>
+    <select name="lokacija" id="lokacija">
+        <option value="" disabled selected>
+            -- izaberi lokaciju --
+        </option>
+        {% for option in locations %}
+            <option value="{{ option.id }}">
+    	    {{ option.name }}
+            </option>
+        {% endfor %}
+    </select>
+<!-- Date & time side by side -->
+<div class="date-time-wrapper">
+    <input type="date" id="date" name="date">
+    <input type="time" id="start_time" name="start_time">
+</div>
+
+<!-- Buttons inline -->
+<div class="button-wrapper">
+    <button type="button" id="cancel">cancel</button>
+    <button type="submit" id="save">save</button>
+    <button type="button" id="back">back</button>
+</div>
+
+</form>
+</body>
+</html>
