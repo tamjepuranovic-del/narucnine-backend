@@ -1,4 +1,21 @@
 document.addEventListener("DOMContentLoaded", () => {
+
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let cookie of cookies) {
+                cookie = cookie.trim();
+                if (cookie.startsWith(name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+
+
     const button = document.getElementById('user_interface');
     const menu = document.getElementById('dropdownMenu');
 
@@ -19,8 +36,15 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
 
-    document.querySelector('#dropdownMenu a[href="/"]').addEventListener('click', (e)=>{
+    document.querySelector('#dropdownMenu a[href="/logout/"]').addEventListener('click', async (e) => {
         e.preventDefault();
+        // Call backend logout endpoint
+        await fetch('/logout/', {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': getCookie('csrftoken') // required if CSRF is enabled
+            }
+        });
         localStorage.clear();
         window.location.href = "/";
     });

@@ -18,6 +18,12 @@ document.addEventListener('DOMContentLoaded', function() {
     console.log("login button ", loginBtn);
     console.log("register button ", registerBtn);
 
+    const loginForm = document.getElementById("loginForm");
+    const regiForm = document.getElementById("registerForm");
+
+    const signupBtn = document.getElementById("signup");
+    const backtoLogin = document.getElementById("backlogin");
+
     // LOGIN
     loginBtn.addEventListener('click', async () => {
         console.log("Login button clicked");
@@ -69,13 +75,10 @@ document.addEventListener('DOMContentLoaded', function() {
             const err = await response.json();
             document.getElementById('register-message').innerText = err.detail || 'Registration failed!';
         }
+        regiForm.style.display = "none";
+        loginForm.style.display = "block";
     });
 
-    const loginForm = document.getElementById("loginForm");
-    const regiForm = document.getElementById("registerForm");
-
-    const signupBtn = document.getElementById("signup");
-    const backtoLogin = document.getElementById("backlogin");
 
     signupBtn.addEventListener('click', async ()=>{
        regiForm.style.display = "block";

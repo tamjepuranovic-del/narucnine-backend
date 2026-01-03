@@ -1,5 +1,6 @@
+from django.contrib.messages.storage import session
 from django.http import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from rest_framework.parsers import JSONParser
 from django.http import JsonResponse
 
@@ -56,7 +57,7 @@ class RegisterView(APIView):
 class DeleteAccountView(APIView):
 
     def delete(self, request):
-        user = request.user
+        user = request.session.get('current_user_id')
         user.delete()
         return Response(
             {"message": "Account deleted successfully"},
@@ -65,7 +66,10 @@ class DeleteAccountView(APIView):
 
 def homepage(request):
     popular_locations = Location.objects.filter(approved=True)[:3]
-    user_id = request.session['current_user_id']
+    user_id = request.session.get('current_user_id')
+
+    if not user_id:
+        return redirect('/')
 
     # Fetch the 3 most recent **normal appointments** for the logged-in user
     reserved_qs = (
@@ -88,6 +92,8 @@ def homepage(request):
 
 #TO BE POPRAVLJENO KAD SE NADJE VREMENA
 def profile(request):
+    if not request.session.get('current_user_id'):
+        return redirect('/')
     return render(request, 'profil.html')
 
 class ProfileView(APIView):
@@ -129,18 +135,20 @@ class ProfileView(APIView):
 
 
 def rezervacija(request):
+    if not request.session.get('current_user_id'):
+        return redirect('/')
     locations = Location.objects.filter(approved=True)[:]
     return render(request,'rezervisanje.html',{'locations':locations})
 
 def RezervacijaApi(request):
     print("api hit")
 
-    if request.method != "POST":
-        return JsonResponse({"error": "Method not allowed"}, status=405)
-
     user_id = request.session.get("current_user_id")
     if not user_id:
         return JsonResponse({"error": "Unauthorized"}, status=401)
+
+    if request.method != "POST":
+        return JsonResponse({"error": "Method not allowed"}, status=405)
 
     location_id = int(request.POST.get("lokacija"))
     date_str = request.POST.get("date")
@@ -189,3 +197,7 @@ def update_status(request, appointment_id):
         return JsonResponse({"error": "Appointment not found"}, status=404)
 
     return JsonResponse({"message": "Status updated successfully"})
+
+def logout(request):
+    request.session.flush()
+    return redirect('/')

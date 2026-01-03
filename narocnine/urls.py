@@ -5,7 +5,7 @@ from . import views
 from django.contrib.auth.views import LogoutView
 from django.urls import path
 from .views import LoginView, RegisterView, DeleteAccountView, homepage, profile, ProfileView, rezervacija, \
-    RezervacijaApi, mestainfo, update_status
+    RezervacijaApi, mestainfo, update_status, logout
 
 urlpatterns = [
 
@@ -21,6 +21,8 @@ urlpatterns = [
     path('api/rezervacija/', RezervacijaApi, name='rezervacija_api'),
     path('mestainfo/<int:location_id>/', mestainfo, name='mestainfo'),
     path('api/update-status/<int:appointment_id>/', update_status, name='update_status'),
+
+    path('logout/', logout, name='logout'),
 
 
 ]

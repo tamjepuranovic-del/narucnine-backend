@@ -17,9 +17,9 @@ body {
 
 /* Title on top of the card */
 .profile-title {
-    margin-bottom: 20px;
     font-size: 28px;
-    color: #333;
+    color: purple;
+    text-align: center;
 }
 
 /* Card block */
@@ -94,4 +94,22 @@ body {
 
 .profile-buttons button#return:hover {
     background-color: #d7372f;
+}
+
+.profile-buttons button#delete {
+    background-color: #333333;
+    color: white;
+}
+
+.profile-buttons button#delete:hover{
+    background-color: #cccccc;
+}
+
+.profile-buttons button#insert {
+    background-color: gray;
+    color: black;
+}
+
+.profile-buttons button#insert:hover{
+    background-color: darkgray;
 }

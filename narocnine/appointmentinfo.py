@@ -5,7 +5,6 @@ from narocnine.models import Appointment
 def get_appointment_info(session, location_id):
     """
     Returns a dict with appointment + location info for a user at a location.
-    Uses session to get current user id.
     """
     user_id = session.get('current_user_id')
     if not user_id:
@@ -28,6 +27,5 @@ def get_appointment_info(session, location_id):
         'time': appointment.start_time,
         'status': appointment.status,
         'location_name': location.name,
-        'location_address': getattr(location, 'address', ''),
-        'location_city': getattr(location, 'city', ''),
+        'location_address': location.address
     }
