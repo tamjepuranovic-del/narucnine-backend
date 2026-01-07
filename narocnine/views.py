@@ -54,11 +54,22 @@ class RegisterView(APIView):
             return Response({'detail': str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
 
+# views.py
 class DeleteAccountView(APIView):
 
     def delete(self, request):
-        user = request.session.get('current_user_id')
+        user_id = request.session.get('current_user_id')
+        if not user_id:
+            return Response({"detail": "Unauthorized"}, status=401)
+
+        try:
+            user = User.objects.get(user_id=user_id)
+        except User.DoesNotExist:
+            return Response({"detail": "User not found"}, status=404)
+
         user.delete()
+        request.session.flush()
+
         return Response(
             {"message": "Account deleted successfully"},
             status=status.HTTP_204_NO_CONTENT
