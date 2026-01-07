@@ -1,11 +1,13 @@
 from django.shortcuts import render
+from django.conf import settings
+from django.conf.urls.static import static
 from rest_framework.views import APIView
 
 from . import views
 from django.contrib.auth.views import LogoutView
 from django.urls import path
 from .views import LoginView, RegisterView, DeleteAccountView, homepage, profile, ProfileView, rezervacija, \
-    RezervacijaApi, mestainfo, update_status, logout
+    RezervacijaApi, mestainfo, update_status, logout, upload_profile_picture
 
 urlpatterns = [
 
@@ -16,6 +18,8 @@ urlpatterns = [
     path('homepage/', homepage, name='homepage'),
     path('profile/', profile, name='profil'),
     path('api/profile/', ProfileView.as_view(), name='api-profile'),
+    path("api/upload-profile-picture/", upload_profile_picture, name="upload-profile-picture"),
+
     path('rezervisanje/', rezervacija, name='rezervisanje'),
     path('api/rezervacija/', RezervacijaApi, name='rezervacija_api'),
     path('mestainfo/<int:location_id>/', mestainfo, name='mestainfo'),
@@ -23,3 +27,6 @@ urlpatterns = [
     path('logout/', logout, name='logout'),
 
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

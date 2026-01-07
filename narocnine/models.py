@@ -14,6 +14,7 @@ class User(models.Model):
     role = models.CharField(max_length=20, choices=ROLE_CHOICES, default='USER')
     created_at = models.DateTimeField(auto_now_add=True)
     last_login = models.DateTimeField(null=True, blank=True)
+    profile_pic = models.CharField(max_length=255, default='static/narocnine/images/img.png')
 
     class Meta:
         db_table = 'users'

@@ -74,4 +74,30 @@ document.addEventListener("DOMContentLoaded", () => {
             alert("Error deleting account.");
         }
     });
+
+    const profilePicInput = document.getElementById("profile-picture-input");
+    const profilePicImg = document.getElementById("profile-pic");
+
+    profilePicInput.addEventListener("change", async (event) => {
+        const file = event.target.files[0];
+        if (!file) return;
+
+    // Preview immediately
+        const reader = new FileReader();
+        reader.onload = () => profilePicImg.src = reader.result;
+        reader.readAsDataURL(file);
+
+    // Upload to server
+        const formData = new FormData();
+        formData.append("profile_picture", file);
+
+        const res = await fetch("/api/upload-profile-picture/", {
+            method: "POST",
+            body: formData,
+            credentials: "same-origin"
+        });
+        const data = await res.json();
+        if (!res.ok) alert("Failed to upload picture");
+    });
+
 });

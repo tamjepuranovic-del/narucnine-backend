@@ -1,6 +1,10 @@
+import os
+from django.conf import settings
+
 from django.contrib.messages.storage import session
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
+from django.views.decorators.csrf import csrf_exempt
 from rest_framework.parsers import JSONParser
 from django.http import JsonResponse
 
@@ -94,10 +98,13 @@ def homepage(request):
     # Fill up to 3 with None if there are fewer than 3 reservations
     while len(reserved_locations) < 3:
         reserved_locations.append(None)
+    user = User.objects.get(user_id=user_id)
+    profile_pic = user.profile_pic or 'static/narocnine/images/img.png'
 
     return render(request, 'homepage.html', {
         'popular_locations': popular_locations,
-        'reserved_locations': reserved_locations
+        'reserved_locations': reserved_locations,
+        'profile_pic': profile_pic
     })
 
 
@@ -105,7 +112,10 @@ def homepage(request):
 def profile(request):
     if not request.session.get('current_user_id'):
         return redirect('/')
-    return render(request, 'profil.html')
+    user_id = request.session.get('current_user_id')
+    user = User.objects.get(user_id=user_id)
+    profile_pic = user.profile_pic or 'static/narocnine/images/img.png'
+    return render(request, 'profil.html', {'profile_pic': profile_pic})
 
 class ProfileView(APIView):
     parser_classes = [JSONParser]
@@ -137,12 +147,35 @@ class ProfileView(APIView):
         user.firs_name = request.data.get("firs_name", user.firs_name)
         user.last_name = request.data.get("last_name", user.last_name)
 
-        password = request.data.get("password")
+        password = request.data.get("password_hash")
         if password and password != "******":
             user.set_password(password)
 
         user.save()
         return Response({"status": "success"})
+
+
+@csrf_exempt
+def upload_profile_picture(request):
+    user_id = request.session.get('current_user_id')
+    user = User.objects.get(user_id=user_id)
+
+    if request.method == "POST" and request.FILES.get("profile_picture"):
+        file = request.FILES["profile_picture"]
+        file_path = f"media/profile_pics/{file.name}"
+
+        save_path = os.path.join(settings.MEDIA_ROOT, "profile_pics", file.name)
+        os.makedirs(os.path.dirname(save_path), exist_ok=True)
+        with open(save_path, "wb+") as f:
+            for chunk in file.chunks():
+                f.write(chunk)
+
+        # Save path to DB
+        user.profile_pic = file_path
+        user.save()
+
+        return JsonResponse({"path": f"/{file_path}"})
+    return JsonResponse({"error": "No file uploaded"}, status=400)
 
 
 def rezervacija(request):

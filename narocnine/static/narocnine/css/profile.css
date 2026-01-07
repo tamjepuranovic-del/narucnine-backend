@@ -36,12 +36,37 @@ body {
 }
 
 /* Profile picture */
-.profilepic {
+
+.profile-img {
     width: 100px;
     height: 100px;
-    border-radius: 50%; /* makes it circular */
+    border-radius: 50%;
     object-fit: cover;
+    margin-bottom: 15px;
+    margin-left: 15px;
     margin-right: 20px;
+    border: 3px solid #ccc;
+}
+.profile-pic-cont {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.upload-btn {
+    padding: 8px 15px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    background-color: darkgray;
+    color: white;
+    font-size: 14px;
+    transition: background-color 0.2s;
+}
+
+.upload-btn:hover {
+    background-color: gray;
 }
 
 /* Info section */
@@ -73,6 +98,7 @@ body {
 }
 
 .profile-buttons button {
+    margin-left: 25px;
     padding: 8px 15px;
     border: none;
     border-radius: 6px;
@@ -87,7 +113,6 @@ body {
     background-color: #45a049;
 }
 
-/* Back button different color */
 .profile-buttons button#return {
     background-color: #f44336;
 }
@@ -102,14 +127,5 @@ body {
 }
 
 .profile-buttons button#delete:hover{
-    background-color: #cccccc;
-}
-
-.profile-buttons button#insert {
     background-color: gray;
-    color: black;
-}
-
-.profile-buttons button#insert:hover{
-    background-color: darkgray;
 }
